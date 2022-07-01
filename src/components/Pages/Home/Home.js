@@ -17,7 +17,7 @@ const Home = () => {
           <div className="hero bg-amber-50	">
             <div className="hero-content text-center">
               <div>
-                <label for="my-modal-6" className="btn modal-button">open modal</label>
+                <label htmlFor="addTask-Modal" className="btn modal-button">open modal</label>
               </div>
               <AddTask></AddTask>
             </div>
