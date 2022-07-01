@@ -5,6 +5,7 @@ import Login from "./components/Pages/Auth/Login";
 import PasswordReset from "./components/Pages/Auth/PasswordReset";
 import Register from "./components/Pages/Auth/Register";
 import RequireAuth from "./components/Pages/Auth/RequireAuth";
+import Calender from "./components/Pages/Calender/Calender";
 import CompletedTask from "./components/Pages/CompletedTask/CompletedTask";
 import Home from "./components/Pages/Home/Home";
 import NotFound from "./components/Pages/NotFound/NotFound";
@@ -23,6 +24,7 @@ function App() {
         <Route path="/register" element={<Register></Register>}></Route>
         <Route path="/password-reset" element={<PasswordReset></PasswordReset>}></Route>
         <Route path="*" element={<NotFound></NotFound>}></Route>
+        <Route path="/calender" element={<Calender></Calender>}></Route>
         <Route path="/todo" element={
           <RequireAuth>
             <ToDo />

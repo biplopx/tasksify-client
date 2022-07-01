@@ -14,7 +14,8 @@ const Navbar = () => {
   const menuItems = <>
     <li><Link to="/home">Home</Link></li>
     <li><Link to="/todo">ToDo</Link></li>
-    <li><Link to="completed-task">Compeleted Task</Link></li>
+    <li><Link to="/completed-task">Compeleted Task</Link></li>
+    <li><Link to="/calender">Calender</Link></li>
     {
       user ?
         <></>

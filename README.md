@@ -1,8 +1,8 @@
-# GigitechBD - The best motherboard manufactural company (Website)
+# Tasksify - Track your daily tasks
 
 Live: [https://gigitechbd.web.app/](https://gigitechbd.web.app/)
 
-GigitechBD is a manufactural full stack website. In this website your can manage there company products. And There customer can order many product listed on this website.
+Tasksify To-Do Application
 
 ## Webiste Features
 
