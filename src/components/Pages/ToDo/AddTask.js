@@ -45,7 +45,6 @@ const AddTask = () => {
       })
   }
 
-
   return (
     <>
       <input type="checkbox" id="addTask-Modal" className="modal-toggle" />

@@ -1,27 +1,55 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import auth from '../../../firebase';
 import Loading from '../../Shared/Loading';
+import SingleTask from '../../Shared/SingleTask';
 import AddTask from '../ToDo/AddTask';
 
 const Home = () => {
   const [user, loading] = useAuthState(auth);
+  const [myTasks, setMyTasks] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      fetch(`http://localhost:5000/mytasks?email=${user?.email}`, {
+        method: 'GET',
+        headers: {
+          'authorization': `Bearer ${localStorage.getItem('tasksifyAccessToken')}`
+        }
+      })
+        .then(res => res.json())
+        .then(data => {
+          setMyTasks(data);
+        });
+    }
+  }, [user, navigate])
+
+
   if (loading) {
     return <Loading></Loading>
   }
+
+
   return (
     <>
       {
         user ? <>
-          <div className="hero bg-amber-50	">
-            <div className="hero-content text-center">
-              <div>
-                <label htmlFor="addTask-Modal" className="btn modal-button">open modal</label>
+          <section className='bg-amber-50 py-10'>
+            <div className="container mx-auto px-6">
+              <div className='text-center'>
+                <label htmlFor="addTask-Modal" className="btn modal-button">Add Task {myTasks?.length}</label>
               </div>
-              <AddTask></AddTask>
+              <div className='mt-6 max-w-md mx-auto'>
+                {
+                  myTasks.map((task, index) => <SingleTask key={task._id} task={task}></SingleTask>)
+                }
+              </div>
             </div>
-          </div>
+          </section>
+          <AddTask></AddTask>
+
         </>
           :
           <>
