@@ -1,15 +1,21 @@
 import { useState, useEffect } from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
+import { useForm } from 'react-hook-form';
 import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import auth from '../../../firebase';
 import Loading from '../../Shared/Loading';
 import SingleTask from '../../Shared/SingleTask';
-import AddTask from '../ToDo/AddTask';
 
 const Home = () => {
   const [user, loading] = useAuthState(auth);
   const [myTasks, setMyTasks] = useState([]);
+  const [fetchAgain, setFetchAgain] = useState(false);
   const navigate = useNavigate();
+  const { register, formState: { errors }, handleSubmit, reset } = useForm({
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+  });
 
   useEffect(() => {
     if (user) {
@@ -22,15 +28,43 @@ const Home = () => {
         .then(res => res.json())
         .then(data => {
           setMyTasks(data);
+          setFetchAgain(false);
         });
     }
-  }, [user, navigate])
+  }, [user, navigate, fetchAgain])
 
 
   if (loading) {
     return <Loading></Loading>
   }
 
+  // Add Task submit
+  const onSubmit = async data => {
+    console.log(user.email)
+    const task = {
+      email: user?.email,
+      title: data.title,
+    }
+    fetch('http://localhost:5000/add-task', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify(task)
+    })
+      .then(res => res.json())
+      .then(result => {
+        if (result.status === 200) {
+          toast.success("Task Added");
+          reset();
+          setFetchAgain(true)
+        }
+        else {
+          toast.error("Something error");
+          reset();
+        }
+      })
+  }
 
   return (
     <>
@@ -39,16 +73,38 @@ const Home = () => {
           <section className='bg-amber-50 py-10'>
             <div className="container mx-auto px-6">
               <div className='text-center'>
-                <label htmlFor="addTask-Modal" className="btn modal-button">Add Task {myTasks?.length}</label>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                  {/* Task */}
+                  <div className="form-control max-w-md mx-auto">
+                    <input
+                      type="text"
+                      {...register("title", {
+                        required: {
+                          value: true,
+                          message: 'Please enter your task name'
+                        }
+                      })}
+                      placeholder="Add your task" className="input input-bordered w-full" />
+                    <label className="label">
+                      {errors.title?.type === 'required' && <span className="label-text-alt text-red-500">{errors.title.message}</span>}
+                    </label>
+                  </div>
+                </form>
               </div>
-              <div className='mt-6 max-w-md mx-auto'>
+              <div className='mt-6 max-w-md text-center mx-auto'>
+                <ul className="rounded-md">
+                  {
+                    myTasks.map(task => <SingleTask key={task._id} setFetchAgain={setFetchAgain} task={task}></SingleTask>)
+                  }
+                </ul>
                 {
-                  myTasks.map((task, index) => <SingleTask key={task._id} task={task}></SingleTask>)
+                  myTasks && myTasks.length > 10 ? <button className='btn btn-primary text-white btn-sm'><Link to="/todo">View All</Link></button>
+                    :
+                    <></>
                 }
               </div>
             </div>
           </section>
-          <AddTask></AddTask>
 
         </>
           :

@@ -45,7 +45,7 @@ const Navbar = () => {
                 {menuItems}
               </ul>
             </div>
-            <Link to="/home" className="normal-case text-2xl font-bold text-primary">Tasksify</Link>
+            <Link to="/home" className="normal-case text-2xl font-bold text-primary">Tasksify BD</Link>
           </div>
           <div className="navbar-end hidden lg:flex">
             <ul className="menu menu-horizontal p-0">
@@ -53,7 +53,6 @@ const Navbar = () => {
             </ul>
             {
               user && <>
-                <div className='bg-white text-black p-3 mr-2 border border-primary rounded-md'><small className='font-semibold'>Logged: {user?.displayName}</small></div>
                 <button onClick={logout} className="btn btn-active btn-primary text-white">Log Out</button>
               </>
             }

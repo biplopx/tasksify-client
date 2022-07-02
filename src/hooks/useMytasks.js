@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 const useMytasks = user => {
-  console.log(user)
   const [myTasks, setMytasks] = useState([]);
+  const [fetchAgain, setFetchAgain] = useState(false);
   useEffect(() => {
     if (user) {
       fetch(`http://localhost:5000/mytasks?email=${user?.email}`, {
@@ -12,11 +12,11 @@ const useMytasks = user => {
       })
         .then(res => res.json())
         .then(data => {
-          console.log(data)
           setMytasks(data);
+          setFetchAgain(false);
         });
     }
-  }, [user])
-  return myTasks;
+  }, [user, fetchAgain])
+  return [myTasks, setMytasks, fetchAgain];
 }
 export default useMytasks;
