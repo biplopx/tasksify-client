@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 const SingleTask = ({ task, setFetchAgain }) => {
   const [isEdit, setIsEdit] = useState("false");
   const { _id, title } = task;
-  const { register, handleSubmit, reset } = useForm({
+  const { register, handleSubmit } = useForm({
     mode: 'onChange',
     reValidateMode: 'onChange',
   });
@@ -23,7 +23,7 @@ const SingleTask = ({ task, setFetchAgain }) => {
   // Complete Task
   const handleOnCheck = (e) => {
     e.preventDefault();
-    fetch(`http://localhost:5000/mytask`, {
+    fetch(`https://polite-drake-61056.herokuapp.com/mytask`, {
       method: 'PUT',
       headers: {
         'content-type': 'application/json',
@@ -38,30 +38,18 @@ const SingleTask = ({ task, setFetchAgain }) => {
 
 
   const onSubmit = async data => {
-    console.log(data)
-    // const task = {
-    //   email: user?.email,
-    //   title: data.title,
-    // }
-    // fetch('http://localhost:5000/add-task', {
-    //   method: 'POST',
-    //   headers: {
-    //     'content-type': 'application/json'
-    //   },
-    //   body: JSON.stringify(task)
-    // })
-    //   .then(res => res.json())
-    //   .then(result => {
-    //     if (result.status === 200) {
-    //       toast.success("Task Added");
-    //       reset();
-    //       setFetchAgain(true)
-    //     }
-    //     else {
-    //       toast.error("Something error");
-    //       reset();
-    //     }
-    //   })
+    fetch(`https://polite-drake-61056.herokuapp.com/mytask/edit`, {
+      method: 'PUT',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({ title: data.title, id: _id })
+    }).then(res => res.json())
+      .then(result => {
+        toast.success('task edited');
+        setFetchAgain(true)
+        setIsEdit("true")
+      })
   }
 
 
@@ -70,16 +58,10 @@ const SingleTask = ({ task, setFetchAgain }) => {
       <span><input onClick={handleOnCheck} type="checkbox" className="checkbox checkbox-xs" /> </span>
       <p className={isEdit ? "block" : "hidden"}>{title}</p>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {/* Task */}
         <div className="form-control max-w-md mx-auto">
           <input
             type="text"
-            {...register("title", {
-              required: {
-                value: true,
-                message: 'Please enter your task name'
-              }
-            })}
+            {...register("title")}
             placeholder={title} className={`input input-bordered w-full input-sm ${!isEdit ? "block" : "hidden"}`} />
         </div>
       </form>

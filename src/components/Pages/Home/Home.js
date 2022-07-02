@@ -19,7 +19,7 @@ const Home = () => {
 
   useEffect(() => {
     if (user) {
-      fetch(`http://localhost:5000/mytasks?email=${user?.email}`, {
+      fetch(`https://polite-drake-61056.herokuapp.com/mytasks?email=${user?.email}`, {
         method: 'GET',
         headers: {
           'authorization': `Bearer ${localStorage.getItem('tasksifyAccessToken')}`
@@ -45,7 +45,7 @@ const Home = () => {
       email: user?.email,
       title: data.title,
     }
-    fetch('http://localhost:5000/add-task', {
+    fetch('https://polite-drake-61056.herokuapp.com/add-task', {
       method: 'POST',
       headers: {
         'content-type': 'application/json'

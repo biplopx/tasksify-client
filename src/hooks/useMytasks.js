@@ -4,7 +4,7 @@ const useMytasks = user => {
   const [fetchAgain, setFetchAgain] = useState(false);
   useEffect(() => {
     if (user) {
-      fetch(`http://localhost:5000/mytasks?email=${user?.email}`, {
+      fetch(`https://polite-drake-61056.herokuapp.com/mytasks?email=${user?.email}`, {
         method: 'GET',
         headers: {
           'authorization': `Bearer ${localStorage.getItem('tasksifyAccessToken')}`

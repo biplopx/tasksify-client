@@ -25,7 +25,7 @@ const AddTask = () => {
       description: data.description,
       label: data.label
     }
-    fetch('http://localhost:5000/add-task', {
+    fetch('https://polite-drake-61056.herokuapp.com/add-task', {
       method: 'POST',
       headers: {
         'content-type': 'application/json'
