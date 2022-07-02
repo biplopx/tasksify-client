@@ -1,6 +1,6 @@
 # Tasksify - Track your daily tasks
 
-Live: [https://gigitechbd.web.app/](https://gigitechbd.web.app/)
+Live: [https://tasksifybd.web.app/](https://tasksifybd.web.app/)
 
 TasksifyBD is daily task management application.
 
