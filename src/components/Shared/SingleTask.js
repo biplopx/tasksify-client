@@ -36,6 +36,21 @@ const SingleTask = ({ task, setFetchAgain }) => {
       })
   };
 
+  // Delete Task
+  const handleDelete = (id) => {
+    fetch(`http://localhost:5000/mytask/`, {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({ id: _id })
+    }).then(res => res.json())
+      .then(result => {
+        toast.success('Task Delete');
+        setFetchAgain(true)
+      })
+  }
+
 
   const onSubmit = async data => {
     fetch(`https://polite-drake-61056.herokuapp.com/mytask/edit`, {
@@ -67,7 +82,7 @@ const SingleTask = ({ task, setFetchAgain }) => {
       </form>
       <div className="btn-group">
         <button onClick={() => handleEdit(_id)} className="btn border-0 btn-xs bg-primary text-white">Edit</button>
-        <button className="btn border-0 btn-xs bg-red-500 text-white">Delete</button>
+        <button onClick={() => handleDelete(_id)} className="btn border-0 btn-xs bg-red-500 text-white">Delete</button>
       </div>
     </li>
   );
