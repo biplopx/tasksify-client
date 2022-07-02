@@ -38,7 +38,7 @@ const SingleTask = ({ task, setFetchAgain }) => {
 
   // Delete Task
   const handleDelete = (id) => {
-    fetch(`http://localhost:5000/mytask/`, {
+    fetch(`https://polite-drake-61056.herokuapp.com/mytask/`, {
       method: 'DELETE',
       headers: {
         'content-type': 'application/json',
